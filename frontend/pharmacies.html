@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pharmacies near you | PharmaLink</title>
+  <meta name="description" content="Find the nearest pharmacies in Kigali, see which are open now and get directions.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script type="module" src="js/layout.js"></script>
+  <script type="module" src="js/pharmacies.js"></script>
+</head>
+<body data-page="pharmacies">
+  <header id="site-header" class="site-header"></header>
+
+  <main>
+    <section class="page-head on-dark">
+      <div class="container">
+        <h1>Pharmacies near you</h1>
+        <p class="page-head__sub">Nearest first. Pick a pharmacy to see what it has in stock, or get directions straight away.</p>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <div class="container toolbar__stack">
+        <div id="location"></div>
+        <form class="toolbar__row" id="controls">
+          <div class="field">
+            <label class="field__label" for="q">Name or area</label>
+            <input class="input" id="q" name="q" type="search" placeholder="For example Kimironko" autocomplete="off">
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="radius">Distance</label>
+            <select class="select" id="radius" name="radius">
+              <option value="">Any distance</option>
+              <option value="2">Within 2 km</option>
+              <option value="5">Within 5 km</option>
+              <option value="10">Within 10 km</option>
+            </select>
+          </div>
+
+          <label class="check"><input type="checkbox" name="open_now" id="open_now">Open now</label>
+        </form>
+      </div>
+    </div>
+
+    <div class="container finder">
+      <div class="finder__list">
+        <p class="results__count" id="count" role="status"></p>
+        <div id="list"><div class="skeleton"></div></div>
+      </div>
+      <div class="finder__map">
+        <div class="map" id="map" role="region" aria-label="Map of pharmacies"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+</body>
+</html>

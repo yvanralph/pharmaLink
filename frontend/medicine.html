@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compare prices | PharmaLink</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script type="module" src="js/layout.js"></script>
+  <script type="module" src="js/medicine.js"></script>
+</head>
+<body data-page="medicines">
+  <header id="site-header" class="site-header"></header>
+
+  <main>
+    <section class="page-head on-dark">
+      <div class="container" id="head">
+        <a class="backlink" href="medicines.html">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+          All medicines
+        </a>
+        <div id="head-content"><h1>Loading</h1></div>
+      </div>
+    </section>
+
+    <div class="toolbar" id="toolbar">
+      <div class="container toolbar__stack">
+        <div id="location"></div>
+        <form class="toolbar__row" id="controls">
+          <fieldset class="field fieldset">
+            <legend class="field__label">Order</legend>
+            <div class="segmented">
+              <label><input type="radio" name="sort" value="price" checked>Cheapest first</label>
+              <label><input type="radio" name="sort" value="distance">Nearest first</label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label class="field__label" for="radius">Distance</label>
+            <select class="select" id="radius" name="radius">
+              <option value="">Any distance</option>
+              <option value="2">Within 2 km</option>
+              <option value="5">Within 5 km</option>
+              <option value="10">Within 10 km</option>
+            </select>
+          </div>
+
+          <label class="check"><input type="checkbox" name="show_out" id="show_out">Also show pharmacies that are out of stock</label>
+        </form>
+      </div>
+    </div>
+
+    <div class="container results">
+      <p class="compare__summary" id="summary" role="status"></p>
+      <div id="offers"><div class="skeleton"></div></div>
+      <p class="compare__note muted">Prices and stock come from each pharmacy's own records and can change during the day. If the trip is long, call the pharmacy before you set off.</p>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+</body>
+</html>

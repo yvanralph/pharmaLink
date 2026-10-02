@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Medicines | PharmaLink</title>
+  <meta name="description" content="Browse and search medicines stocked by Kigali pharmacies and see the lowest price for each.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script type="module" src="js/layout.js"></script>
+  <script type="module" src="js/medicines.js"></script>
+</head>
+<body data-page="medicines" data-header-search="off">
+  <header id="site-header" class="site-header"></header>
+
+  <main>
+    <section class="page-head on-dark">
+      <div class="container">
+        <h1>Medicines</h1>
+        <p class="page-head__sub">Search by the name on the box or by the generic name. Pick a medicine to compare its price across pharmacies.</p>
+        <form class="search search--large" id="search-form" role="search">
+          <svg class="icon search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+          <label class="visually-hidden" for="q">Medicine name</label>
+          <input class="search__input" id="q" type="search" name="q" placeholder="Medicine name, e.g. paracetamol" autocomplete="off">
+          <button class="btn btn--sky search__btn" type="submit">Search</button>
+        </form>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <form class="container toolbar__row" id="filters">
+        <div class="field">
+          <label class="field__label" for="category">Category</label>
+          <select class="select" id="category" name="category">
+            <option value="">All categories</option>
+          </select>
+        </div>
+
+        <fieldset class="field fieldset">
+          <legend class="field__label">Prescription</legend>
+          <div class="segmented">
+            <label><input type="radio" name="prescription" value="" checked>All</label>
+            <label><input type="radio" name="prescription" value="false">Not needed</label>
+            <label><input type="radio" name="prescription" value="true">Needed</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label class="field__label" for="sort">Sort by</label>
+          <select class="select" id="sort" name="sort">
+            <option value="name">Name, A to Z</option>
+            <option value="price_asc">Lowest price first</option>
+            <option value="price_desc">Highest price first</option>
+          </select>
+        </div>
+
+        <label class="check"><input type="checkbox" name="in_stock" id="in_stock">Only show medicines in stock</label>
+      </form>
+    </div>
+
+    <div class="container results">
+      <p class="results__count" id="count" role="status"></p>
+      <ul class="med-grid" id="list"></ul>
+      <nav class="pager" id="pager" aria-label="Pages"></nav>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+</body>
+</html>

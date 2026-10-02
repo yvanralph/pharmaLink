@@ -1,0 +1,266 @@
+/* Styles for the medicines, price comparison and pharmacy pages */
+
+.fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.fieldset legend {
+  padding: 0;
+  margin-bottom: 6px;
+}
+
+.toolbar__stack {
+  display: grid;
+  gap: 14px;
+}
+
+.toolbar__stack .locbar {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.med-grid__full {
+  grid-column: 1 / -1;
+}
+
+/* Price comparison */
+.compare__summary {
+  max-width: 48rem;
+  margin-bottom: 26px;
+  font-size: 1.25rem;
+  line-height: 1.45;
+}
+
+.compare__summary:empty {
+  display: none;
+}
+
+.compare__note {
+  max-width: 44rem;
+  margin-top: 28px;
+  font-size: 0.9375rem;
+}
+
+/* Pharmacy finder: list on the left, map on the right */
+.finder {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 48px);
+  padding-block: 28px 72px;
+  align-items: start;
+}
+
+.finder__map {
+  position: sticky;
+  top: calc(var(--header-height) + 16px);
+}
+
+.finder .route {
+  --track: 26%;
+  padding-inline: 10px 8px;
+  margin-left: -2px;
+  border-left: 2px solid transparent;
+}
+
+.finder .route.is-active {
+  background: var(--sky-wash);
+  --route-surface: var(--sky-wash);
+}
+
+.map {
+  width: 100%;
+  height: min(calc(100vh - var(--header-height) - 48px), 720px);
+  min-height: 380px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-l);
+  background: var(--mist);
+  z-index: 0;
+}
+
+.map--small {
+  height: 320px;
+  min-height: 0;
+}
+
+/* Map markers */
+.pin__shape {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50% 50% 50% 4px;
+  transform: rotate(-45deg);
+  background: var(--navy);
+  border: 2px solid #ffffff;
+  box-shadow: 0 3px 8px rgb(15 23 42 / 0.35);
+}
+
+.pin__shape::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  background:
+    linear-gradient(#ffffff, #ffffff) center / 100% 3px no-repeat,
+    linear-gradient(#ffffff, #ffffff) center / 3px 100% no-repeat;
+  transform: rotate(45deg);
+}
+
+.pin--active .pin__shape {
+  background: var(--blue);
+  transform: rotate(-45deg) scale(1.2);
+}
+
+.pin-you span {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--sky);
+  border: 4px solid #ffffff;
+  box-shadow: 0 0 0 2px var(--navy), 0 3px 8px rgb(15 23 42 / 0.35);
+}
+
+.leaflet-container {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+}
+
+.leaflet-popup-content {
+  margin: 14px 18px;
+  line-height: 1.45;
+}
+
+.leaflet-popup-content strong {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+}
+
+.leaflet-container a {
+  color: var(--blue-dark);
+  font-weight: 600;
+}
+
+/* Single pharmacy */
+.shop {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 64px);
+  padding-block: 36px 72px;
+  align-items: start;
+}
+
+.shop__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.shop__side {
+  display: grid;
+  gap: 16px;
+  position: sticky;
+  top: calc(var(--header-height) + 16px);
+}
+
+.shop__filters {
+  margin-block: 20px 18px;
+}
+
+.shop__filters .field {
+  flex: 1 1 260px;
+  max-width: 420px;
+}
+
+.page-head__chips .status--closed::before {
+  box-shadow: inset 0 0 0 2px #ffffff;
+}
+
+.stock {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 2px solid var(--navy);
+}
+
+.stock__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(110px, auto);
+  gap: 6px 24px;
+  align-items: center;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.stock__name a {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.stock__name a:hover {
+  color: var(--blue-dark);
+  text-decoration: underline;
+}
+
+.stock__name span,
+.stock__status small {
+  font-size: 0.9375rem;
+}
+
+.stock__status {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+}
+
+.stock__price {
+  text-align: right;
+}
+
+.stock__row--out .price {
+  color: var(--off);
+}
+
+.stock__note {
+  margin-top: 16px;
+  font-size: 0.9375rem;
+}
+
+@media (max-width: 860px) {
+  .finder,
+  .shop {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Map first, list underneath */
+  .finder__map,
+  .shop__side {
+    position: static;
+    order: -1;
+  }
+
+  .map {
+    height: 300px;
+    min-height: 0;
+  }
+
+  .stock__row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .stock__name {
+    grid-column: 1 / -1;
+  }
+
+  .stock__status {
+    justify-items: start;
+  }
+}

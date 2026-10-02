@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PharmaLink: find medicines and compare pharmacy prices in Kigali</title>
+  <meta name="description" content="Search what Kigali pharmacies have in stock, compare their prices and see which pharmacy is closest to you.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/home.css">
+  <script type="module" src="js/layout.js"></script>
+  <script type="module" src="js/home.js"></script>
+</head>
+<body data-page="home" data-header-search="off">
+  <header id="site-header" class="site-header"></header>
+
+  <main>
+    <!-- Live numbers from the network (filled in by js/home.js) -->
+    <div class="strip on-dark">
+      <ul class="container strip__list" id="stats" aria-label="PharmaLink right now"></ul>
+    </div>
+
+    <!-- Hero: search and illustration -->
+    <section class="hero on-dark">
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <h1 class="hero__title">Find your medicine before you leave home.</h1>
+          <p class="hero__lede">Search what Kigali pharmacies have in stock, compare their prices, and see which one is closest to you.</p>
+
+          <form class="search search--large" id="hero-search" action="medicines.html" role="search">
+            <svg class="icon search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+            <label class="visually-hidden" for="hero-q">Medicine name</label>
+            <input class="search__input" id="hero-q" type="search" name="q" placeholder="Medicine name, e.g. paracetamol">
+            <button class="btn btn--sky search__btn" type="submit">Search</button>
+          </form>
+
+          <p class="hero__popular">
+            <span>Often searched</span>
+            <a class="chip" href="medicines.html?q=amoxicillin">Amoxicillin</a>
+            <a class="chip" href="medicines.html?q=ibuprofen">Ibuprofen</a>
+            <a class="chip" href="medicines.html?q=coartem">Coartem</a>
+            <a class="chip" href="medicines.html?q=ORS">ORS</a>
+            <a class="chip" href="medicines.html?q=vitamin%20c">Vitamin C</a>
+          </p>
+        </div>
+
+        <!-- Hero picture. To use your own, put the file in assets/images/ and change src. -->
+        <img class="hero__art" src="assets/images/hero-pharmacy.svg" alt="" width="600" height="520">
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="section" id="categories">
+      <div class="container">
+        <div class="section__head">
+          <h2>Browse by category</h2>
+          <p>Not sure of the name? Start from what the medicine is for.</p>
+        </div>
+        <ul class="directory" id="category-list">
+          <li class="skeleton"></li>
+          <li class="skeleton"></li>
+          <li class="skeleton"></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Nearby pharmacies -->
+    <section class="section section--mist" id="nearby">
+      <div class="container nearby">
+        <div class="nearby__intro">
+          <h2>Pharmacies closest to you</h2>
+          <p class="muted">Each line is a pharmacy. The shorter the line, the shorter your trip.</p>
+          <div id="nearby-location"></div>
+          <a class="btn" href="pharmacies.html">See every pharmacy on the map</a>
+        </div>
+        <div id="nearby-list">
+          <div class="skeleton"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="container about">
+        <div class="about__text">
+          <h2>One place to check every pharmacy</h2>
+          <p>Finding a medicine in Kigali often means walking or riding from one pharmacy to the next, asking the same question at each counter. PharmaLink answers it before you set off.</p>
+          <p>We connect to the stock systems pharmacies already use, so what you see here is what they have recorded on their own shelves: which medicines are in, what they cost, and when that information last changed.</p>
+          <p><strong>Pharmacies keep their own system.</strong> Joining PharmaLink does not mean replacing software or retraining staff. We read the stock list a pharmacy already keeps and show it to people nearby who are looking for those medicines.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="steps__item">
+            <h3>Search for the medicine</h3>
+            <p>Type the name on the box or the generic name. Both work.</p>
+          </li>
+          <li class="steps__item">
+            <h3>Compare price and distance</h3>
+            <p>See every pharmacy that has it, what each one charges, and how far each one is from you.</p>
+          </li>
+          <li class="steps__item">
+            <h3>Go and buy it there</h3>
+            <p>Get directions or call ahead. You pay at the pharmacy; for prescription medicines, take your prescription with you.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section section--mist" id="contact">
+      <div class="container">
+        <div class="section__head">
+          <h2>Something missing or wrong?</h2>
+          <p>Tell us if you cannot find a medicine or a price looks off. If you run a pharmacy and want to be listed, write to us here too.</p>
+        </div>
+
+        <div class="contact">
+          <form class="contact__form" id="contact-form" novalidate>
+            <div class="field">
+              <label class="field__label" for="contact-name">Your name</label>
+              <input class="input" id="contact-name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="100">
+            </div>
+            <div class="field">
+              <label class="field__label" for="contact-contact">Phone number or email, so we can reply</label>
+              <input class="input" id="contact-contact" name="contact" type="text" required minlength="5" maxlength="120" placeholder="+250 7…  or  name@example.com">
+            </div>
+            <div class="field">
+              <label class="field__label" for="contact-topic">What is it about?</label>
+              <select class="select" id="contact-topic" name="topic">
+                <option value="missing_medicine">I cannot find a medicine</option>
+                <option value="wrong_information">A price or stock level is wrong</option>
+                <option value="pharmacy_joining">I run a pharmacy and want to be listed</option>
+                <option value="other">Something else</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field__label" for="contact-message">Message</label>
+              <textarea class="textarea" id="contact-message" name="message" required minlength="5" maxlength="2000"></textarea>
+            </div>
+            <p class="contact__error" id="contact-error" role="alert"></p>
+            <button class="btn" type="submit">Send message</button>
+          </form>
+
+          <div class="contact__details">
+            <!-- Placeholder contact details: replace with your real ones -->
+            <ul class="contact__list">
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
+                <div>
+                  <h3>Call or WhatsApp</h3>
+                  <p><a href="tel:+250788000000">+250 788 000 000</a></p>
+                  <p class="muted">Monday to Saturday, 08:00 to 18:00</p>
+                </div>
+              </li>
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+                <div>
+                  <h3>Email</h3>
+                  <p><a href="mailto:hello@pharmalink.example">hello@pharmalink.example</a></p>
+                  <p class="muted">We reply within two working days</p>
+                </div>
+              </li>
+              <li>
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+                <div>
+                  <h3>Where we are</h3>
+                  <p>Kigali, Rwanda</p>
+                </div>
+              </li>
+            </ul>
+            <p class="contact__emergency"><strong>PharmaLink is not an emergency service.</strong> In a medical emergency, call 912 for an ambulance.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What you can rely on -->
+    <section class="facts" aria-label="How PharmaLink works for you">
+      <ul class="container facts__list">
+        <li>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></svg>
+          Prices come from each pharmacy's own records
+        </li>
+        <li>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+          Every price shows when it was last updated
+        </li>
+        <li>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></svg>
+          Distances are measured from where you are
+        </li>
+        <li>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+          Free to use, with no account to create
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+</body>
+</html>
