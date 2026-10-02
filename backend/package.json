@@ -1,0 +1,27 @@
+{
+  "name": "pharmalink-backend",
+  "version": "0.1.0",
+  "description": "PharmaLink API - search medicines, compare prices and find nearby pharmacies",
+  "private": true,
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=18.11"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "db:setup": "node scripts/db.js setup",
+    "db:schema": "node scripts/db.js schema",
+    "db:seed": "node scripts/db.js seed",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "helmet": "^8.3.0",
+    "morgan": "^1.12.1",
+    "pg": "^8.23.1"
+  }
+}
