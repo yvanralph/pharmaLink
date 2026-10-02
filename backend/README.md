@@ -1,6 +1,6 @@
 # PharmaLink backend
 
-REST API for PharmaLink, built with Node.js, Express and PostgreSQL. It covers the three MVP features:
+REST API for PharmaLink, built with Node.js, Express and PostgreSQL. It also serves the website in `../frontend`, so one command runs the whole app. It covers the three MVP features:
 
 1. **Work with existing pharmacy systems** – stock and prices live in an `inventory` table that records which system each pharmacy's data came from (`source_system`), the item's ID in that system (`external_sku`) and when it was last received (`last_synced_at`). For now it is filled with seeded test data.
 2. **Browse, search and compare prices** – `/api/medicines` and `/api/medicines/:id/prices`.
@@ -18,7 +18,7 @@ npm run db:setup          # creates the database, the tables and the test data
 npm run dev               # starts the API on http://localhost:3000 and restarts on file changes
 ```
 
-Open <http://localhost:3000/api/medicines?q=para> to check that it works.
+Open <http://localhost:3000> for the website, or <http://localhost:3000/api/medicines?q=para> to check the API on its own.
 
 | Command | What it does |
 | --- | --- |
@@ -43,6 +43,7 @@ backend/
 │   ├── config.js         settings read from .env
 │   ├── db.js             PostgreSQL connection pool
 │   ├── routes/           URL handlers: read the request, send the response
+│   │                     (index, medicines, pharmacies, contact)
 │   ├── queries/          the SQL
 │   ├── middleware/       404 and error handling
 │   └── utils/            input validation, response formatting
@@ -56,6 +57,7 @@ backend/
 | `pharmacies` | name, address, phone, latitude/longitude, opening hours, `source_system` |
 | `medicines` | the shared catalogue: name, generic and brand name, category, form, strength, pack size, prescription flag |
 | `inventory` | one row per pharmacy per medicine: `price` (RWF), `quantity`, `external_sku`, `last_synced_at` |
+| `contact_messages` | messages sent through the contact form on the website |
 
 Two SQL functions do the location and opening-hours work:
 
@@ -64,7 +66,7 @@ Two SQL functions do the location and opening-hours work:
 
 ## API
 
-All endpoints are `GET` and return JSON. Prices are whole numbers in RWF.
+Everything under `/api` returns JSON. Prices are whole numbers in RWF. Any other address serves the website from `../frontend`.
 
 ### Medicines
 
@@ -141,9 +143,29 @@ All endpoints are `GET` and return JSON. Prices are whole numbers in RWF.
 | `q` | Search in name, address, sector and district |
 | `page`, `limit` | Pagination; `limit` defaults to 20, max 100 |
 
+### Other endpoints
+
+| Endpoint | Description |
+| --- | --- |
+| `GET /api/stats` | Headline numbers: `pharmacies`, `pharmacies_open_now`, `medicines`, `last_synced_at` |
+| `GET /api/health` | Whether the API can reach the database |
+| `POST /api/contact` | Save a message from the contact form |
+
+`POST /api/contact` takes a JSON body and answers `201` with the new message's `id`:
+
+```json
+{ "name": "Aline", "contact": "+250 788 000 000", "topic": "missing_medicine", "message": "I could not find ..." }
+```
+
+`topic` is one of `missing_medicine`, `wrong_information`, `pharmacy_joining`, `other`. One address can send at most 5 messages in 10 minutes (after that the answer is `429`). To read the messages:
+
+```sql
+SELECT * FROM contact_messages ORDER BY created_at DESC;
+```
+
 ### Errors
 
-Errors always have the same shape, with a matching HTTP status (400, 404, 500, 503):
+Errors always have the same shape, with a matching HTTP status (400, 404, 429, 500, 503):
 
 ```json
 { "error": { "code": "invalid_parameter", "message": "limit must be a whole number between 1 and 100" } }

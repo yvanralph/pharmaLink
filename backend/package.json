@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "PharmaLink API - search medicines, compare prices and find nearby pharmacies",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "main": "src/server.js",
   "engines": {

@@ -1,6 +1,7 @@
 -- PharmaLink database schema
 -- Running this file DROPS and recreates every table (npm run db:schema).
 
+DROP TABLE IF EXISTS contact_messages;
 DROP TABLE IF EXISTS inventory;
 DROP TABLE IF EXISTS medicines;
 DROP TABLE IF EXISTS pharmacies;
@@ -56,6 +57,18 @@ CREATE TABLE inventory (
     external_sku   TEXT,                                     -- the item's ID in the pharmacy's own system
     last_synced_at TIMESTAMPTZ NOT NULL DEFAULT now(),       -- when we last received this row
     UNIQUE (pharmacy_id, medicine_id)
+);
+
+-- ---------------------------------------------------------------------------
+-- Messages sent through the contact form on the website
+-- ---------------------------------------------------------------------------
+CREATE TABLE contact_messages (
+    id         INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name       TEXT        NOT NULL,
+    contact    TEXT        NOT NULL,   -- phone number or email to reply to
+    topic      TEXT        NOT NULL,
+    message    TEXT        NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE INDEX idx_inventory_medicine  ON inventory (medicine_id, price);

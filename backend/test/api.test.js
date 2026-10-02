@@ -51,6 +51,75 @@ describe('general', () => {
   });
 });
 
+describe('website', () => {
+  test('the homepage is served at /', async () => {
+    const response = await fetch(`${baseUrl}/`);
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get('content-type'), /text\/html/);
+    assert.match(await response.text(), /PharmaLink/);
+  });
+
+  test('pages allow the Referer header that OpenStreetMap map tiles need', async () => {
+    const response = await fetch(`${baseUrl}/pharmacies.html`);
+    assert.equal(response.headers.get('referrer-policy'), 'strict-origin-when-cross-origin');
+    assert.match(response.headers.get('content-security-policy'), /img-src[^;]*https:\/\/tile\.openstreetmap\.org/);
+  });
+
+  test('unknown pages get the HTML not-found page', async () => {
+    const response = await fetch(`${baseUrl}/no-such-page`);
+    assert.equal(response.status, 404);
+    assert.match(response.headers.get('content-type'), /text\/html/);
+  });
+
+  test('stats report the size of the network', async () => {
+    const { status, body } = await get('/api/stats');
+    assert.equal(status, 200);
+    assert.equal(body.data.pharmacies, 12);
+    assert.equal(body.data.medicines, 38);
+    assert.ok(body.data.pharmacies_open_now >= 2);
+    assert.ok(!Number.isNaN(Date.parse(body.data.last_synced_at)));
+  });
+});
+
+describe('contact form', () => {
+  const message = { name: 'Test Person', contact: '+250 788 000 000', topic: 'other', message: 'Automated test message' };
+
+  async function send(body) {
+    const response = await fetch(`${baseUrl}/api/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    return { status: response.status, body: await response.json() };
+  }
+
+  after(async () => {
+    await pool.query("DELETE FROM contact_messages WHERE message = 'Automated test message'");
+  });
+
+  test('a valid message is saved', async () => {
+    const { status, body } = await send(message);
+    assert.equal(status, 201);
+    assert.ok(body.data.id > 0);
+    const saved = await pool.query('SELECT name, topic FROM contact_messages WHERE id = $1', [body.data.id]);
+    assert.deepEqual(saved.rows[0], { name: 'Test Person', topic: 'other' });
+  });
+
+  test('missing or invalid fields are rejected', async () => {
+    for (const bad of [{ ...message, name: '' }, { ...message, contact: 'x' }, { ...message, topic: 'spam' }, { ...message, message: 'hi' }, {}]) {
+      const { status, body } = await send(bad);
+      assert.equal(status, 400);
+      assert.equal(body.error.code, 'invalid_field');
+    }
+  });
+
+  test('too many messages in a short time are refused', async () => {
+    let last;
+    for (let i = 0; i < 6; i += 1) last = await send(message);
+    assert.equal(last.status, 429);
+  });
+});
+
 describe('medicines', () => {
   test('browse returns a paginated list sorted by name', async () => {
     const { status, body } = await get('/api/medicines?limit=5');
