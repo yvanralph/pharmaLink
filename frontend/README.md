@@ -4,7 +4,7 @@ The PharmaLink website, written in plain HTML, CSS and JavaScript (no build step
 
 ```bash
 cd backend
-npm run dev        # then open http://localhost:3000
+npm run dev      # then open http://localhost:3000
 ```
 
 ## Pages
